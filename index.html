@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Tracalorie</title>
+</head>
+<body>
+    <nav class="navigation">
+        <div class="container">
+            <a href="#" class="logo">Tracalorie</a>
+            <ul>
+                <a href="" class="clear-all">Clear All</a>
+            </ul>
+        </div>
+    </nav>  
+    <br>
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Add Meal / Food Item</span>
+                    <form action="" class="input-form">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <label for="item-name">Meal</label>
+                                <input type="text" placeholder="Add Item" id="item-name">
+                            </div>
+                            <div class="input-field col s6">
+                                <label for="item-calories">Calories</label>
+                                <input type="number" placeholder="Add Calories" id="item-calories">
+                            </div>
+                        </div>
+                        <div class="form-buttons">
+                            <button class="add btn">+ Add Meal</button>
+                            <!-- <button class="update">+ Update Meal</button>
+                            <button class="delete">Delete Meal</button> -->
+                            <button class="back btn">Back</button>
+                        </div>
+                    </form>               
+            </div>
+        </div>
+        <h3>Total Calories: <span class="total-calories">0</span></h3>
+        <ul id="item-list" class="collection">
+            <li class="collection-item" id="item-0">
+                <span class="info">
+                    <strong>Steak Dineer: </strong> <em>1200 Calories</em>
+                </span>
+                <a href="#" class="edit-item">Edit</a>
+            </li>
+            <li class="collection-item" id="item-1">
+                <span class="info">
+                    <strong>Cookie: </strong> <em>300 Calories</em>
+                </span>
+                <a href="#" class="edit-item">Edit</a>
+            </li>
+            <li class="collection-item" id="item-2">
+                <span class="info">
+                    <strong>Burger: </strong> <em>600 Calories</em>
+                </span>
+                <a href="#" class="edit-item">Edit</a>
+            </li>
+            <li class="collection-item" id="item-3">
+                <span class="info">
+                    <strong>Fruits: </strong> <em>200 Calories</em>
+                </span>
+                <a href="#" class="edit-item">Edit</a>
+            </li>
+        </ul>
+    </div> 
+    <script src="app.js"></script> 
+</body>
+</html>

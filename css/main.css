@@ -1,0 +1,76 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif; }
+  body .navigation {
+    background: dodgerblue; }
+    body .navigation .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70px;
+      width: 100%;
+      position: relative; }
+      body .navigation .container a {
+        color: #fff;
+        text-decoration: none; }
+      body .navigation .container ul {
+        position: absolute;
+        right: 30px; }
+        body .navigation .container ul a {
+          padding: 8px 15px;
+          background: #65abf1; }
+  body .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; }
+    body .container .card {
+      width: 80%;
+      padding: 20px;
+      margin: 20px 0;
+      border: 1px solid grey;
+      box-shadow: 1px 1px 5px black; }
+      body .container .card .input-form .row {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0; }
+        body .container .card .input-form .row .input-field {
+          display: flex;
+          flex-direction: column; }
+          body .container .card .input-form .row .input-field input {
+            padding: 7px 10px 10px 0;
+            border: none;
+            border-bottom: 1px solid grey;
+            transition: all 0.3s ease-in-out; }
+            body .container .card .input-form .row .input-field input:focus {
+              outline: none;
+              border-bottom: palegreen 3px solid; }
+      body .container .card .input-form .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 30px; }
+        body .container .card .input-form .form-buttons .btn {
+          padding: 8px 15px;
+          border: none;
+          border-radius: 8px; }
+    body .container .collection {
+      width: 80%; }
+      body .container .collection .collection-item {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 8px;
+        border: 1px solid grey;
+        margin: 10px 0;
+        border-radius: 5px; }
+        body .container .collection .collection-item .edit-item {
+          color: #fff;
+          text-decoration: none;
+          padding: 3px;
+          background: turquoise;
+          border-radius: 3px; }
