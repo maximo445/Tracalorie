@@ -40,7 +40,9 @@ body {
         margin: 20px 0; }
         body .container .card .input-form .row .input-field {
           display: flex;
-          flex-direction: column; }
+          flex-direction: column;
+          flex: 1;
+          padding: 0 10px; }
           body .container .card .input-form .row .input-field input {
             padding: 7px 10px 10px 0;
             border: none;
