@@ -37,6 +37,7 @@ const ItemCtrl = (function(){
         },
         setCurrentItem: function(id) {
             data.items.forEach(item => {
+                console.log(item.id, id);
                 if (item.id === id) {
                     data.currentItem = item;
                 }
@@ -44,11 +45,31 @@ const ItemCtrl = (function(){
 
             return data.currentItem;
         },
-        addItem: function(item) {
-            
+        currentItemToNull: function() {
+            data.currentItem = null;   
+        },
+        addItem: function(item) {            
             data.items.push(item);
+        },
+        updateItem: function(item) {
+            data.items.splice(item.id,1,item);
+            console.log(data.items);
+        },
+        removeItem: function(id) {
+            if (data.items.length === 1) {
+                data.items = [];
+            } else {
+                console.log(data.items.splice(id,1), data.items);
+                let countId = 0;
+                data.items.forEach(item => {
+                    item.id = countId;
+                    countId++;
+                })
+            }
 
-            console.log('Items pushed to data!');
+        }, 
+        getCurrentItem: function() {
+            return data.currentItem;
         }
     }
 
@@ -107,15 +128,43 @@ const UICtrl = (function(ItemCtrl){
     
                 return {
                     meal: meal,
-                    calories: calories
+                    calories: calories,
+                    mealInput: mealInput,
+                    caloriesInput: caloriesInput
                 }
             } else {
                 return {
                     meal: null,
-                    calories: null
+                    calories: null,
+                    mealInput: mealInput,
+                    caloriesInput: caloriesInput
                 }
             }
 
+        },
+        getLiItems: function() {
+            return document.querySelector('#item-list').getElementsByTagName('li');
+        },
+        displayCurrentItem: function() {
+            const currentItem = ItemCtrl.getCurrentItem();
+            if (currentItem) {
+                const inputs = UICtrl.getItemsInput();
+                inputs.mealInput.value = currentItem.name;
+                inputs.caloriesInput.value = currentItem.calories;
+                UICtrl.loadEditState();
+            }
+        },
+        loadAddState: function() {
+            document.querySelector('.add').style.display = 'inline';
+            document.querySelector('.update').style.display = 'none';
+            document.querySelector('.delete').style.display = 'none';
+            document.querySelector('.back').style.display = 'none';
+        },
+        loadEditState: function() {
+            document.querySelector('.add').style.display = 'none';
+            document.querySelector('.update').style.display = 'inline';
+            document.querySelector('.delete').style.display = 'inline';
+            document.querySelector('.back').style.display = 'inline';
         }
     }
 
@@ -127,6 +176,9 @@ const App = (function(ItemCtrl, UICtrl){
     //Public Methods
     return {
         init: function() {
+
+            // load add state
+            UICtrl.loadAddState();
 
             // get items
             const items = ItemCtrl.getItems();
@@ -156,7 +208,7 @@ const App = (function(ItemCtrl, UICtrl){
                  // get items
                 const items = ItemCtrl.getItems();
                 
-                console.log(items);
+                // console.log(items);
 
                 // display items
                 UICtrl.displayItemInUL(items);
@@ -166,14 +218,79 @@ const App = (function(ItemCtrl, UICtrl){
                 
             });
 
+            // edit btn event listener (event delegation)
             document.querySelector('#item-list').addEventListener('click', function (event) {
                 if (event.target.classList.contains('edit-item')) {
                     const id = event.target.parentElement.id.split('-')[1];
-                    const currentItem = ItemCtrl.setCurrentItem(parseInt(id));
-                    console.log(currentItem);
+                    console.log('my id: ', id);
+                    ItemCtrl.setCurrentItem(parseInt(id));
+                    UICtrl.displayCurrentItem();
                 }
             });
+
+            // delete item
+            document.querySelector('.delete').addEventListener('click', function() {
+                
+                let item = ItemCtrl.getCurrentItem();
+                console.log('current item: ', item);
+                let id = item.id;
+
+                ItemCtrl.removeItem(id);
+
+                // clear inputs
+                const inputs = UICtrl.getItemsInput();
+                inputs.mealInput.value = '';
+                inputs.caloriesInput.value = '';
+
+                // set current item to null
+                ItemCtrl.currentItemToNull();
+
+                // get items
+                const items = ItemCtrl.getItems();
+
+                // update calories
+                UICtrl.updateCalories();
+                
+                // display items
+                UICtrl.displayItemInUL(items);
+
+                // change to add state
+                UICtrl.loadAddState();
+
+            });
             
+            // update item
+            document.querySelector('.update').addEventListener('click', function() {
+                const inputs = UICtrl.getItemsInput();
+                const meal = inputs.meal;
+                const calories = inputs.calories;
+                const item = ItemCtrl.getCurrentItem();
+                const id = item.id;
+                ItemCtrl.updateItem({id: id, name: meal, calories: parseInt(calories)});                
+
+                // set current item to null
+                ItemCtrl.currentItemToNull();
+
+                // get items
+                const items = ItemCtrl.getItems();
+
+                // update calories
+                UICtrl.updateCalories();
+                
+                // display items
+                UICtrl.displayItemInUL(items);
+
+                // change to add state
+                UICtrl.loadAddState();
+            });
+
+            document.querySelector('.back').addEventListener('click', function() {
+                const inputs = UICtrl.getItemsInput();
+                inputs.mealInput.value = '';
+                inputs.caloriesInput.value = '';
+
+                UICtrl.loadAddState();
+            });
     
         }
     }

@@ -59,7 +59,16 @@ body {
         body .container .card .input-form .form-buttons .btn {
           padding: 8px 15px;
           border: none;
-          border-radius: 8px; }
+          border-radius: 8px;
+          color: #fff; }
+        body .container .card .input-form .form-buttons .add {
+          background: dodgerblue; }
+        body .container .card .input-form .form-buttons .update {
+          background: gold; }
+        body .container .card .input-form .form-buttons .delete {
+          background: red; }
+        body .container .card .input-form .form-buttons .back {
+          background: #333; }
     body .container .collection {
       width: 80%; }
       body .container .collection .collection-item {
