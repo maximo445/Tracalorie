@@ -1,7 +1,60 @@
 // Storage Controller
+const StorageCtrl = (function(){
+    return {
+        getData: function () {
+            if (localStorage.getItem('items') === null) {
+                return [];
+            } else {
+                return JSON.parse(localStorage.getItem('items'));
+            }
+        },
+        addItem: function (item) {
+            let items;
+            if (localStorage.getItem('items') === null) {
+                items = [];
+            } else {
+                items = JSON.parse(localStorage.getItem('items'));
+            }
+
+            items.push(item);
+
+            localStorage.setItem('items', JSON.stringify(items));
+        },
+        updateItem: function (item) {
+            let items;
+            if (localStorage.getItem('items') === null) {
+                items = [];
+            } else {
+                items = JSON.parse(localStorage.getItem('items'));
+            }
+
+            items.splice(item.id, 1, item);
+
+            localStorage.setItem('items', JSON.stringify(items));
+        },
+        deleteItem: function (id) {
+            let items;
+            if (localStorage.getItem('items') === null) {
+                items = [];
+            } else {
+                items = JSON.parse(localStorage.getItem('items'));
+            }
+
+            items.splice(id, 1);
+
+            let countId = 0;
+            items.forEach(item => {
+                item.id = countId;
+                countId++;
+            })
+
+            localStorage.setItem('items', JSON.stringify(items));
+        }
+    }
+})();
 
 // Item Controller
-const ItemCtrl = (function(){
+const ItemCtrl = (function(StorageCtrl){
     //Item Constructor
     const Item = function(id, name, calories) {
         this.id = id;
@@ -11,32 +64,28 @@ const ItemCtrl = (function(){
 
     //Data Structure / State
     const data = {
-        items: [
-            {id: 0, name: 'Steak Dinner', calories: 1200},
-            {id: 1, name: 'Cookie', calories: 400},
-            {id: 2, name: 'Eggs', calories: 300}
-        ],
+        // items: [
+        //     {id: 0, name: 'Steak Dinner', calories: 1200},
+        //     {id: 1, name: 'Cookie', calories: 400},
+        //     {id: 2, name: 'Eggs', calories: 300}
+        // ]
+        items: StorageCtrl.getData(),
         currentItem: null,
         totalCalories: 0
     }
 
     return {
         logData: function() {
-            return data.items;
+            return StorageCtrl.getData();
         },
         getItems: function() {
 
-            return data.items;
-
-            // if(data.items.length > 0) {
-            //     return data.items;
-            // } else {
-            //     return null;
-            // }
+            // return data.items;
+            return StorageCtrl.getData();
 
         },
         setCurrentItem: function(id) {
-            data.items.forEach(item => {
+            StorageCtrl.getData().forEach(item => {
                 console.log(item.id, id);
                 if (item.id === id) {
                     data.currentItem = item;
@@ -48,24 +97,29 @@ const ItemCtrl = (function(){
         currentItemToNull: function() {
             data.currentItem = null;   
         },
-        addItem: function(item) {            
-            data.items.push(item);
+        addItem: function(item) { 
+            StorageCtrl.addItem(item);           
+            // data.items.push(item);
+            // console.log('Data from storage: ', StorageCtrl.getData());
         },
         updateItem: function(item) {
+            StorageCtrl.updateItem(item);
             data.items.splice(item.id,1,item);
-            console.log(data.items);
         },
         removeItem: function(id) {
-            if (data.items.length === 1) {
-                data.items = [];
-            } else {
-                console.log(data.items.splice(id,1), data.items);
-                let countId = 0;
-                data.items.forEach(item => {
-                    item.id = countId;
-                    countId++;
-                })
-            }
+
+            StorageCtrl.deleteItem(id);
+
+            // if (data.items.length === 1) {
+            //     data.items = [];
+            // } else {
+            //     console.log(data.items.splice(id,1));
+            //     let countId = 0;
+            //     data.items.forEach(item => {
+            //         item.id = countId;
+            //         countId++;
+            //     })
+            // }
 
         }, 
         getCurrentItem: function() {
@@ -73,7 +127,7 @@ const ItemCtrl = (function(){
         }
     }
 
-})();
+})(StorageCtrl);
 
 // UI Controller
 const UICtrl = (function(ItemCtrl){
