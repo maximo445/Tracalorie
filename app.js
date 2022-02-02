@@ -35,6 +35,15 @@ const ItemCtrl = (function(){
             // }
 
         },
+        setCurrentItem: function(id) {
+            data.items.forEach(item => {
+                if (item.id === id) {
+                    data.currentItem = item;
+                }
+            });
+
+            return data.currentItem;
+        },
         addItem: function(item) {
             
             data.items.push(item);
@@ -127,8 +136,6 @@ const App = (function(ItemCtrl, UICtrl){
             
             // display items
             UICtrl.displayItemInUL(items);
-
-            console.log(ItemCtrl.logData());
         },
         loadEventListeners: function () {
             // Get UI Selectors
@@ -157,6 +164,14 @@ const App = (function(ItemCtrl, UICtrl){
                 e.stopPropagation();
                 e.preventDefault();
                 
+            });
+
+            document.querySelector('#item-list').addEventListener('click', function (event) {
+                if (event.target.classList.contains('edit-item')) {
+                    const id = event.target.parentElement.id.split('-')[1];
+                    const currentItem = ItemCtrl.setCurrentItem(parseInt(id));
+                    console.log(currentItem);
+                }
             });
             
     
