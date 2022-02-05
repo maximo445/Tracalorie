@@ -85,3 +85,15 @@ body {
           padding: 3px;
           background: turquoise;
           border-radius: 3px; }
+
+@media (max-width: 499px) {
+  .navigation {
+    background: dodgerblue; }
+    .navigation .container {
+      position: static; }
+      .navigation .container ul {
+        position: static; }
+  .row {
+    flex-direction: column; }
+    .row div:nth-child(1) {
+      margin-bottom: 15px; } }

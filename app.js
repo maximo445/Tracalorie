@@ -49,9 +49,13 @@ const StorageCtrl = (function(){
             })
 
             localStorage.setItem('items', JSON.stringify(items));
+        },
+        clearAllItems: function () {
+            localStorage.clear();
         }
     }
 })();
+
 
 // Item Controller
 const ItemCtrl = (function(StorageCtrl){
@@ -79,10 +83,8 @@ const ItemCtrl = (function(StorageCtrl){
             return StorageCtrl.getData();
         },
         getItems: function() {
-
             // return data.items;
             return StorageCtrl.getData();
-
         },
         setCurrentItem: function(id) {
             StorageCtrl.getData().forEach(item => {
@@ -219,13 +221,16 @@ const UICtrl = (function(ItemCtrl){
             document.querySelector('.update').style.display = 'inline';
             document.querySelector('.delete').style.display = 'inline';
             document.querySelector('.back').style.display = 'inline';
+        },
+        clearUl: function() {
+            document.querySelector('#item-list').innerHTML = '';
         }
     }
 
 })(ItemCtrl);
 
 // App Controller
-const App = (function(ItemCtrl, UICtrl){
+const App = (function(ItemCtrl, UICtrl, StorageCtrl) {
     
     //Public Methods
     return {
@@ -345,11 +350,16 @@ const App = (function(ItemCtrl, UICtrl){
 
                 UICtrl.loadAddState();
             });
+
+            document.querySelector('.clear-all').addEventListener('click', function() {
+                StorageCtrl.clearAllItems();
+                UICtrl.clearUl();
+            })
     
         }
     }
 
-})(ItemCtrl, UICtrl);
+})(ItemCtrl, UICtrl, StorageCtrl);
 
 App.loadEventListeners();
 App.init();
